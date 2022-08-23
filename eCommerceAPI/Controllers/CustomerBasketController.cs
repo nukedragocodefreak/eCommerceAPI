@@ -65,7 +65,7 @@ namespace eCommerceAPI.Api.Controllers
                 var response = _customerBasket.CalculateDiscountAsync(value, discountpolicyid);
                 return (IEnumerable<float>)response;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 _logger.LogInformation(ex.Message);
                 throw;
