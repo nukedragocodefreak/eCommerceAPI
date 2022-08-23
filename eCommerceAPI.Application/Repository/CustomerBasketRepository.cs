@@ -17,32 +17,36 @@ namespace eCommerceAPI.Application.Repository
             _context = context;
         }
 
-        public Task<Orders> AddCustomerBasketAsync(int id, int Quantity, int CustomerId) 
+        public  Orders AddCustomerBasketAsync(int id, int Quantity, int CustomerId) 
         {
 
             var product = _context.Products.SingleOrDefault(c => c.ProductId == id);
-            var customer = _context.Customers.SingleOrDefault(c => c.Customerid == CustomerId); 
-
+            var customer = _context.Customers.SingleOrDefault(c => c.Customerid == CustomerId);
+            var order = new Orders();
             if (product != null)
             {
-                var order = new Orders
+                var orderDetail = new OrderDetails
+                {
+                    Price = product.Price,
+                    ProductId = product.ProductId,
+                    Quantity = Quantity
+                };
+                var orderslist = new List<OrderDetails>();
+                orderslist.Add(orderDetail);
+                 order = new Orders
                 {
                     CustomerId = CustomerId,
                     ShippingAddress = customer.ShippingAddress,
                     TotalAmount = (float)(Quantity * product.Price),
                     DiscountpolicyId = 0,
                     OrderDate = DateTime.UtcNow,
-                    OrderStatus = ""
+                    OrderStatus = "",
+                    OrderDetails = orderslist
                 };
-
-                var orderDetail = new OrderDetails
-                {
-                    Price = product.Price,
-                    ProductId = product.ProductId,
-                    Quantity = Quantity                 
-                };
+                
             }
-            throw new NotImplementedException();
+            return order;
+
 
         }
 

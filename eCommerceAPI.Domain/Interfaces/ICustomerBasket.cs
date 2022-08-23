@@ -9,7 +9,7 @@ namespace eCommerceAPI.Core.Interfaces
 {
     public interface ICustomerBasket
     {
-        Task<Orders> AddCustomerBasketAsync(int id, int Quantity, int CustomerId);
+        Orders AddCustomerBasketAsync(int id, int Quantity, int CustomerId);
         Task<float> GetCurrentValueAsync(float value);
         Task<float>  CalculateDiscountAsync(float value, int discountpolicyid); 
     }
