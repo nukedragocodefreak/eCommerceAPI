@@ -26,8 +26,17 @@ namespace eCommerceAPI.Api.Controllers
         [HttpGet]
         public IEnumerable<Domain.Models.Products> GetAll()
         {
-            var response = _products.GetProductsAsync();
-            return (IEnumerable<Domain.Models.Products>)response;
+            try
+            {
+                var response = _products.GetProductsAsync();
+                return (IEnumerable<Domain.Models.Products>)response;
+            }
+            catch (Exception ex)
+            {
+               _logger.LogInformation(ex.Message);
+                throw;
+            }
+
         }
     }
 }

@@ -27,22 +27,49 @@ namespace eCommerceAPI.Api.Controllers
         [HttpGet("{id}/{Quantity}/{CustomerId}")]
         public IEnumerable<Domain.Models.Orders> Get(int id, int Quantity, int CustomerId)
         {
+            try
+            {
                 var response = _customerBasket.AddCustomerBasketAsync(id, Quantity, CustomerId);
-            return (IEnumerable<Orders>)response;
+                return (IEnumerable<Orders>)response;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                throw;
+               
+            }
+
         }
 
         [HttpGet("{value}")]
         public IEnumerable<float> GetValue(float value)
         {
-            var response = _customerBasket.GetCurrentValueAsync(value);
-            return (IEnumerable<float>)response;
+            try
+            {
+                var response = _customerBasket.GetCurrentValueAsync(value);
+                return (IEnumerable<float>)response;
+            }
+            catch (Exception ex)
+            {
+               _logger.LogInformation(ex.Message);
+                throw;
+            }
+
         }
 
         [HttpGet("{value}/{discountpolicyid}")]
         public IEnumerable<float> GetValue(float value, int discountpolicyid)
         {
-            var response = _customerBasket.CalculateDiscountAsync(value, discountpolicyid);
-            return (IEnumerable<float>)response;
+            try
+            {
+                var response = _customerBasket.CalculateDiscountAsync(value, discountpolicyid);
+                return (IEnumerable<float>)response;
+            }
+            catch (Exception)
+            {
+                _logger.LogInformation(ex.Message);
+                throw;
+            }
         }
     }
 }

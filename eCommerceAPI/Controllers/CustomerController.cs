@@ -27,8 +27,18 @@ namespace eCommerceAPI.Api.Controllers
         [HttpGet("{id}")]
         public IEnumerable<Domain.Models.Customers> Get(int id)
         {
-            var response = _customers.GetCustomersByIdAsync(id);
-            return (IEnumerable<Customers>)response;
+
+            try
+            {
+                var response = _customers.GetCustomersByIdAsync(id);
+                return (IEnumerable<Customers>)response;
+            }
+
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                throw;
+            }
         }
     }
 }
